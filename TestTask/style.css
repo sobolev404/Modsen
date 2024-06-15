@@ -1,56 +1,67 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 body {
-    display: flex;
-    justify-content: center; /* Центрируем содержимое по горизонтали */
-    align-items: center; /* Центрируем содержимое по вертикали */
-    height: 100vh; /* Устанавливаем высоту body равной высоте окна просмотра */
-    background-color: blueviolet;
-    margin: 0; /* Убираем отступы у body */
+  display: flex;
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  align-items: center; /* Центрируем содержимое по вертикали */
+  height: 100vh; /* Устанавливаем высоту body равной высоте окна просмотра */
+  background-color: blueviolet;
+  margin: 0; /* Убираем отступы у body */
 }
 .content {
-    width: 60%;
-    padding: 30px;
-    margin: auto;
-    background-color: white;
+  width: 60%;
+  padding: 30px;
+  margin: auto;
+  background-color: white;
 }
 
 .questionNumber {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.question{
-    text-align: center;
-    margin-bottom: 30px;
+.question {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .answersButtons {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: 30px;
-    column-gap: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 30px;
+  column-gap: 30px;
 }
 .btn_answer {
-    flex-basis: 45%;
-    
+  flex-basis: 45%;
+  width: 100px;
 }
 
-@media screen and (max-width:700px){
-    .answersButtons{
-        
-        
-    } 
-    .btn_answer{
-        width: 50%;
-    }   
+.btnRestCont {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-    .content{
-        width: 70%;
-        padding: 15px;
-    }
+.btn_restart button {
+  font-size: 20px;
+  padding: 5px;
+}
+
+@media screen and (max-width: 700px) {
+  .btn_answer {
+    width: 50%;
+  }
+
+  .content {
+    width: 70%;
+    padding: 15px;
+  }
+
+  .answersButtons {
+    justify-content: center;
+  }
 }
