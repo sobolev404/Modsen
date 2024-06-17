@@ -5,7 +5,6 @@
 // 5. Which of these characters are friends with Harry Potter? (Ron Weasley, Draco Malfoy, Hermione Granger)
 // 6. What is the capital of Canada? (Toronto, Ottawa, Vancouver)
 // 7. What is the Jewish New Year called? (Hanukkah, Yom Kippur, Kwanzaa)
-let totalScore = 0;
 const questionsList = [
   {
     questionTitle: "How many planets are in the solar system?",
@@ -54,107 +53,94 @@ const questionsList = [
   },
 ];
 
-// for(let i=0;i<questionsList.length;i++){
-//     console.log(questionsList[i].questionTitle)
-//     for(let numberOfAnswer=0;numberOfAnswer<questionsList[i].answersList.length;numberOfAnswer++){
-//         console.log(questionsList[i].answersList[numberOfAnswer][0])
-//     }
-//     console.log()
-// }
+const content = document.getElementById("content");
+play();
 
-let randomQuestionOrAnswer = function(arr){
-  let newArr = []
-  while(newArr.length!==arr.length){
-   let a = arr[Math.floor(Math.random() * arr.length)]
-   if (!newArr.includes(a)){
-       newArr.push(a)
-   }
-  }
-  return newArr
+function play() {
+  const questionsInRandomOrder = randomQuestionOrAnswer(questionsList);
+  let totalScore = 0;
+  let questionNumber = 0;
+
+  displayNextQuestion(questionsInRandomOrder, questionNumber, totalScore);
 }
 
-let questionNumber = 0;
-let randomQuestions = randomQuestionOrAnswer(questionsList);
+//////////////// ПЕРЕМЕШКА ВОПРОСОВ И ОТВЕТОВ
+function randomQuestionOrAnswer(arr) {
+  let newArr = [];
+  while (newArr.length !== arr.length) {
+    let a = arr[Math.floor(Math.random() * arr.length)];
+    if (!newArr.includes(a)) {
+      newArr.push(a);
+    }
+  }
+  return newArr;
+}
 
-const content = document.getElementById("content");
+/////////////// ВЫВОД ТЕКУЩЕГО ВОПРОСА
+function displayNextQuestion(
+  questionsInRandomOrder,
+  questionNumber,
+  totalScore
+) {
+  if (questionNumber < questionsInRandomOrder.length) {
+    displayQuestionTitle(questionsInRandomOrder, questionNumber);
+    let answersInRandomOrder = randomQuestionOrAnswer(
+      questionsInRandomOrder[questionNumber].answersList
+    );
+    displayAnswers(answersInRandomOrder);
+    let isAnswerSelected = false;
+    listAnswers.onclick = function (event) {
+      if (isAnswerSelected) return;
+      if (event.target.dataset.type === "true") {
+        isAnswerSelected = true;
+        event.target.style.backgroundColor = "green";
+        totalScore += 1;
+        setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
+      } else if (event.target.dataset.type === "false") {
+        isAnswerSelected = true;
+        event.target.style.backgroundColor = "red";
+        setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
+      }
+    };
+  } else {
+    endOfTheGame(totalScore);
+  }
+}
 
-let displayQuestion = function (numberOfQuestion) {
-  let answerSelected = false;
-  content.innerHTML = ` <h1 class="questionNumber">Question ${
-    numberOfQuestion + 1
-  }/${randomQuestions.length}</h1>
-        <h2 class="question">${
-          randomQuestions[numberOfQuestion].questionTitle
-        }</h2>
-        <div class="answersButtons" id="listAnswers">
-        </div>`;
+////////////// КОНЕЦ ИГРЫ
+function endOfTheGame(totalScore) {
+  content.innerHTML = `<h1 style="text-align:center">That's all! Your score: ${totalScore} </h1>
+      <div class="btnRestCont"><div class="btn_restart"><button id="restart">Play again</button></div></div>`;
+  const btnRestart = document.getElementById("restart");
+  btnRestart.onclick = function () {
+    play();
+  };
+}
+
+/////////////// ВЫВОД ВАРИАНТОВ ОТВЕТОВ
+function displayAnswers(answersArr) {
   const listAnswers = document.getElementById("listAnswers");
-  let randomAnswers = randomQuestionOrAnswer(randomQuestions[numberOfQuestion].answersList);
-  for (let numberOfAnswer = 0; numberOfAnswer < randomAnswers.length; numberOfAnswer++) {
+  for (
+    let numberOfAnswer = 0;
+    numberOfAnswer < answersArr.length;
+    numberOfAnswer++
+  ) {
     listAnswers.insertAdjacentHTML(
       "beforeend",
-      getAnswer(randomAnswers, numberOfAnswer)
+      getAnswer(answersArr, numberOfAnswer)
     );
   }
-  listAnswers.onclick = function (event) {
-    if (answerSelected) return;
-    if (event.target.dataset.type === "true") {
-      answerSelected = true;
-      event.target.style.backgroundColor = "green";
-      totalScore += 1;
-      setTimeout(function () {
-        if (numberOfQuestion + 1 < randomQuestions.length) {
-          displayQuestion(numberOfQuestion + 1); // Переходим к следующему вопросу
-        } else {
-          questionNumber = 0;
-  
-          content.innerHTML = `<h1 style="text-align:center">That's all! Your score: ${totalScore} </h1>
-          <div class="btnRestCont"><div class="btn_restart"><button id="restart">Play again</button></div></div>`;
-          const btnRestart = document.getElementById("restart");
-          btnRestart.onclick = function () {
-            totalScore = 0;
-            displayQuestion(questionNumber);
-            randomQuestions = randomQuestionOrAnswer(questionsList);
-          };
-        }
-      }, 2000);
-    } else if((event.target.dataset.type === "false")){
-      answerSelected = true;
-
-      event.target.style.backgroundColor = "red";
-      setTimeout(function () {
-        if (numberOfQuestion + 1 < randomQuestions.length) {
-          displayQuestion(numberOfQuestion + 1); // Переходим к следующему вопросу
-        } else {
-          questionNumber = 0;
-  
-          content.innerHTML = `<h1 style="text-align:center">That's all! Your score: ${totalScore} </h1>
-          <div class="btnRestCont"><div class="btn_restart"><button id="restart">Play again</button></div></div>`;
-          const btnRestart = document.getElementById("restart");
-          btnRestart.onclick = function () {
-            totalScore = 0;
-            displayQuestion(questionNumber);
-            randomQuestions = randomQuestionOrAnswer(questionsList);
-          };
-        }
-      }, 2000);
-    }
-
-     // Задержка перед переходом к следующему вопросу
-  };
-};
-
-function getAnswer(randomAnswers, answerIndex) {
-  return `<button class="btn_answer" data-index="${answerIndex}" data-type="${randomAnswers[answerIndex][1]}">${randomAnswers[answerIndex][0]}</button>`;
 }
-displayQuestion(questionNumber);
+function getAnswer(answersArr, answerIndex) {
+  return `<button class="btn_answer" data-index="${answerIndex}" data-type="${answersArr[answerIndex][1]}">${answersArr[answerIndex][0]}</button>`;
+}
 
-// listAnswers.onclick = function(event){
-//     if(event.target.dataset.type==='true'){
-//         event.target.style.backgroundColor = "green";
-//     }else{
-//         event.target.style.backgroundColor = "red";
-//     }
-//   }
-
-
+////////////////ВЫВОД ВОПРОСА И ЕГО НОМЕРА
+function displayQuestionTitle(questionArr, question) {
+  return (content.innerHTML = ` <h1 class="questionNumber">Question ${
+    question + 1
+  }/${questionArr.length}</h1>
+        <h2 class="question">${questionArr[question].questionTitle}</h2>
+        <div class="answersButtons" id="listAnswers">
+        </div>`);
+}
