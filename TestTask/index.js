@@ -61,61 +61,91 @@ const questionsList = [
 //     }
 //     console.log()
 // }
+
+let randomQuestionOrAnswer = function(arr){
+  let newArr = []
+  while(newArr.length!==arr.length){
+   let a = arr[Math.floor(Math.random() * arr.length)]
+   if (!newArr.includes(a)){
+       newArr.push(a)
+   }
+  }
+  return newArr
+}
+
 let questionNumber = 0;
+let randomQuestions = randomQuestionOrAnswer(questionsList);
+
 const content = document.getElementById("content");
 
 let displayQuestion = function (numberOfQuestion) {
   let answerSelected = false;
   content.innerHTML = ` <h1 class="questionNumber">Question ${
     numberOfQuestion + 1
-  }/${questionsList.length}</h1>
+  }/${randomQuestions.length}</h1>
         <h2 class="question">${
-          questionsList[numberOfQuestion].questionTitle
+          randomQuestions[numberOfQuestion].questionTitle
         }</h2>
         <div class="answersButtons" id="listAnswers">
         </div>`;
   const listAnswers = document.getElementById("listAnswers");
-
-  for (
-    let numberOfAnswer = 0;
-    numberOfAnswer < questionsList[numberOfQuestion].answersList.length;
-    numberOfAnswer++
-  ) {
+  let randomAnswers = randomQuestionOrAnswer(randomQuestions[numberOfQuestion].answersList);
+  for (let numberOfAnswer = 0; numberOfAnswer < randomAnswers.length; numberOfAnswer++) {
     listAnswers.insertAdjacentHTML(
       "beforeend",
-      getAnswer(numberOfQuestion, numberOfAnswer)
+      getAnswer(randomAnswers, numberOfAnswer)
     );
   }
   listAnswers.onclick = function (event) {
     if (answerSelected) return;
     if (event.target.dataset.type === "true") {
+      answerSelected = true;
       event.target.style.backgroundColor = "green";
       totalScore += 1;
-    } else {
+      setTimeout(function () {
+        if (numberOfQuestion + 1 < randomQuestions.length) {
+          displayQuestion(numberOfQuestion + 1); // Переходим к следующему вопросу
+        } else {
+          questionNumber = 0;
+  
+          content.innerHTML = `<h1 style="text-align:center">That's all! Your score: ${totalScore} </h1>
+          <div class="btnRestCont"><div class="btn_restart"><button id="restart">Play again</button></div></div>`;
+          const btnRestart = document.getElementById("restart");
+          btnRestart.onclick = function () {
+            totalScore = 0;
+            displayQuestion(questionNumber);
+            randomQuestions = randomQuestionOrAnswer(questionsList);
+          };
+        }
+      }, 2000);
+    } else if((event.target.dataset.type === "false")){
+      answerSelected = true;
+
       event.target.style.backgroundColor = "red";
+      setTimeout(function () {
+        if (numberOfQuestion + 1 < randomQuestions.length) {
+          displayQuestion(numberOfQuestion + 1); // Переходим к следующему вопросу
+        } else {
+          questionNumber = 0;
+  
+          content.innerHTML = `<h1 style="text-align:center">That's all! Your score: ${totalScore} </h1>
+          <div class="btnRestCont"><div class="btn_restart"><button id="restart">Play again</button></div></div>`;
+          const btnRestart = document.getElementById("restart");
+          btnRestart.onclick = function () {
+            totalScore = 0;
+            displayQuestion(questionNumber);
+            randomQuestions = randomQuestionOrAnswer(questionsList);
+          };
+        }
+      }, 2000);
     }
-    answerSelected = true;
 
-    setTimeout(function () {
-      if (numberOfQuestion + 1 < questionsList.length) {
-        displayQuestion(numberOfQuestion + 1); // Переходим к следующему вопросу
-      } else {
-        questionNumber = 0;
-
-        content.innerHTML = `<h1 style="text-align:center">That's all! Your score: ${totalScore} </h1>
-        <div class="btnRestCont"><div class="btn_restart"><button id="restart">Play again</button></div></div>`;
-        const btnRestart = document.getElementById("restart");
-        btnRestart.onclick = function () {
-          totalScore = 0;
-          displayQuestion(questionNumber);
-        };
-      }
-    }, 2000); // Задержка перед переходом к следующему вопросу
+     // Задержка перед переходом к следующему вопросу
   };
 };
 
-function getAnswer(questionIndex, answerIndex) {
-  return `<button class="btn_answer" data-index="${answerIndex}" data-type="${questionsList[questionIndex].answersList[answerIndex][1]}">${questionsList[questionIndex].answersList[answerIndex][0]}</button>`;
+function getAnswer(randomAnswers, answerIndex) {
+  return `<button class="btn_answer" data-index="${answerIndex}" data-type="${randomAnswers[answerIndex][1]}">${randomAnswers[answerIndex][0]}</button>`;
 }
 displayQuestion(questionNumber);
 
@@ -126,3 +156,5 @@ displayQuestion(questionNumber);
 //         event.target.style.backgroundColor = "red";
 //     }
 //   }
+
+
