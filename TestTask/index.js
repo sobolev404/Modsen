@@ -88,6 +88,8 @@ function displayNextQuestion(
       questionsInRandomOrder[questionNumber].answersList
     );
     displayAnswers(answersInRandomOrder);
+    displayNextButton();
+    const nextBtn = document.getElementById('next')
     let isAnswerSelected = false;
     listAnswers.onclick = function (event) {
       if (isAnswerSelected) return;
@@ -95,17 +97,24 @@ function displayNextQuestion(
         isAnswerSelected = true;
         event.target.style.backgroundColor = "green";
         totalScore += 1;
-        setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
+        nextBtn.onclick = () => {displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore)}
+        // setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
       } else if (event.target.dataset.type === "false") {
         isAnswerSelected = true;
         event.target.style.backgroundColor = "red";
-        setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
+        nextBtn.onclick = () => {displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore)}
+        // setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
       }
     };
   } else {
     endOfTheGame(totalScore);
   }
 }
+//////ВЫВОД КНОПКИ НЕКСТ
+function displayNextButton(){
+  content.insertAdjacentHTML("beforeend",`<div class="btnNextCont"><div class="btn_next"><button id="next">Next</button></div></div>`)
+}
+
 
 ////////////// КОНЕЦ ИГРЫ
 function endOfTheGame(totalScore) {
