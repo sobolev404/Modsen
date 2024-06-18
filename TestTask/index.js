@@ -51,6 +51,51 @@ const questionsList = [
       ["47", false],
     ],
   },
+  {
+    questionTitle: "Which of these characters are friends with Harry Potter?(There are two right answers)",
+    answersList: [
+      ["Ron Weasley", true],
+      ["Draco Malfoy", false],
+      ["Hermione Granger", true],
+      ["Voldemort", false],
+    ],
+  },
+  {
+    questionTitle: "Which of these cities are in Europe?(There are two right answers)",
+    answersList: [
+      ["Berlin", true],
+      ["Tokyo", false],
+      ["Paris", true],
+      ["Sydney", false],
+    ],
+  },
+  {
+    questionTitle: "Which of these are programming languages?(There are two right answers)",
+    answersList: [
+      ["Python", true],
+      ["HTML", true],
+      ["CSS", false],
+      ["Spanish", false],
+    ],
+  },
+  {
+    questionTitle: "Which of these sports are played with a ball?(There are two right answers)",
+    answersList: [
+      ["Soccer", true],
+      ["Basketball", true],
+      ["Swimming", false],
+      ["Running", false],
+    ],
+  },
+  {
+    questionTitle: "Which of these countries are located in North America?(There are two right answers)",
+    answersList: [
+      ["United States", true],
+      ["France", false],
+      ["Mexico", true],
+      ["Japan", false],
+    ],
+  },
 ];
 
 const content = document.getElementById("content");
@@ -73,7 +118,7 @@ function randomQuestionOrAnswer(arr) {
       newArr.push(a);
     }
   }
-  return newArr;
+  return newArr.slice(-5);
 }
 
 /////////////// ВЫВОД ТЕКУЩЕГО ВОПРОСА
@@ -89,21 +134,41 @@ function displayNextQuestion(
     );
     displayAnswers(answersInRandomOrder);
     displayNextButton();
-    const nextBtn = document.getElementById('next')
+    const nextBtn = document.getElementById("next");
     let isAnswerSelected = false;
+    const correctAnswers = answersInRandomOrder.filter(
+      (answer) => answer[1]
+    ).length;
+    let selectedCorrectAnswers = 0;
+
     listAnswers.onclick = function (event) {
       if (isAnswerSelected) return;
-      if (event.target.dataset.type === "true") {
-        isAnswerSelected = true;
-        event.target.style.backgroundColor = "green";
-        totalScore += 1;
-        nextBtn.onclick = () => {displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore)}
-        // setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
-      } else if (event.target.dataset.type === "false") {
-        isAnswerSelected = true;
-        event.target.style.backgroundColor = "red";
-        nextBtn.onclick = () => {displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore)}
-        // setTimeout(() => displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore), 1000);
+
+      const target = event.target;
+      if (target.className === "btn_answer") {
+        if (target.dataset.type === "true") {
+          target.style.backgroundColor = "green";
+          selectedCorrectAnswers++;
+          if (selectedCorrectAnswers === correctAnswers) {
+            isAnswerSelected = true;
+            totalScore += 1;
+            nextBtn.onclick = () =>
+              displayNextQuestion(
+                questionsInRandomOrder,
+                questionNumber + 1,
+                totalScore
+              );
+          }
+        } else {
+          target.style.backgroundColor = "red";
+          isAnswerSelected = true;
+          nextBtn.onclick = () =>
+            displayNextQuestion(
+              questionsInRandomOrder,
+              questionNumber + 1,
+              totalScore
+            );
+        }
       }
     };
   } else {
@@ -111,10 +176,12 @@ function displayNextQuestion(
   }
 }
 //////ВЫВОД КНОПКИ НЕКСТ
-function displayNextButton(){
-  content.insertAdjacentHTML("beforeend",`<div class="btnNextCont"><div class="btn_next"><button id="next">Next</button></div></div>`)
+function displayNextButton() {
+  content.insertAdjacentHTML(
+    "beforeend",
+    `<div class="btnNextCont"><div class="btn_next"><button id="next">Next</button></div></div>`
+  );
 }
-
 
 ////////////// КОНЕЦ ИГРЫ
 function endOfTheGame(totalScore) {
