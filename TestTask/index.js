@@ -73,8 +73,8 @@ const questionsList = [
     questionTitle: "Which of these are programming languages?(There are two right answers)",
     answersList: [
       ["Python", true],
-      ["HTML", true],
-      ["CSS", false],
+      ["Java", true],
+      ["Russian", false],
       ["Spanish", false],
     ],
   },
@@ -118,7 +118,7 @@ function randomQuestionOrAnswer(arr) {
       newArr.push(a);
     }
   }
-  return newArr.slice(-5);
+  return newArr.slice(-5);////////////// НЕ КОРРЕКТНО ОБРЕЗАЕТСЯ МАССИВ
 }
 
 /////////////// ВЫВОД ТЕКУЩЕГО ВОПРОСА
