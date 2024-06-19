@@ -1,3 +1,7 @@
+// Напишите функцию, которая генерирует
+// идентификатор строки (указанной длины) из
+// случайных символов.
+
 function* generateRandomId(numElements) { //функция генератор
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < numElements; i++) {
