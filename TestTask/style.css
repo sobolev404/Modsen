@@ -16,10 +16,14 @@
   --btn-next-margin-top: 30px;
   --btn-next-font-size: 15px;
   --btn-next-padding: 10px 20px;
-  --media-max-width: 700px;
   --media-content-width: 70%;
   --media-content-padding: 15px;
   --media-btn-next-padding: 5px 10px;
+  --timer-font-size: 30px;
+  --timer-margin-bottom: 20px;
+  --timer-color: red;
+  --timer-font-weight: 600;
+  --btn-answer-flex-basis-small: 60%;
 }
 
 * {
@@ -91,9 +95,17 @@ body {
   padding: var(--btn-next-padding);
 }
 
-@media screen and (max-width: var(--media-max-width)) {
+.timer {
+  text-align: center;
+  font-size: var(--timer-font-size);
+  margin-bottom: var(--timer-margin-bottom);
+  color: var(--timer-color);
+  font-weight: var(--timer-font-weight);
+}
+
+@media screen and (max-width: 700px) {
   .btn_answer {
-    width: 50%;
+    flex-basis: var(--btn-answer-flex-basis-small);
   }
 
   .content {

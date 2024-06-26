@@ -134,6 +134,25 @@ function displayNextQuestion(
     );
     displayAnswers(answersInRandomOrder);
     displayNextButton();
+
+    let timeLeft = 10;
+    const timerElement = document.getElementById('timer');
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerElement.textContent = timeLeft;
+      if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          nextBtn.click();
+      }
+  }, 1000);
+
+  timeoutHandle = setTimeout(() => {
+      clearInterval(timerInterval);
+      displayNextQuestion(questionsInRandomOrder, questionNumber + 1, totalScore);
+  }, 10000);
+
+
+
     const nextBtn = document.getElementById("next");
     let isAnswerSelected = false;
     const correctAnswers = answersInRandomOrder.filter(
@@ -152,6 +171,8 @@ function displayNextQuestion(
           if (selectedCorrectAnswers === correctAnswers) {
             isAnswerSelected = true;
             totalScore += 1;
+            clearInterval(timerInterval);
+            clearTimeout(timeoutHandle);
             nextBtn.onclick = () =>
               displayNextQuestion(
                 questionsInRandomOrder,
@@ -162,6 +183,8 @@ function displayNextQuestion(
         } else {
           target.style.backgroundColor = "red";
           isAnswerSelected = true;
+          clearInterval(timerInterval);
+          clearTimeout(timeoutHandle);
           nextBtn.onclick = () =>
             displayNextQuestion(
               questionsInRandomOrder,
@@ -217,6 +240,7 @@ function displayQuestionTitle(questionArr, question) {
     question + 1
   }/${questionArr.length}</h1>
         <h2 class="question">${questionArr[question].questionTitle}</h2>
+        <div class="timer" id="timer">10</div>
         <div class="answersButtons" id="listAnswers">
         </div>`);
 }
