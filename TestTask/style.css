@@ -1,35 +1,49 @@
 :root {
   --body-height: 100vh;
-  --body-bg-color: blueviolet;
+  --body-bg-color: #f0f2f5;
   --content-width: 60%;
-  --content-padding: 30px;
-  --content-bg-color: white;
+  --content-padding: 40px;
+  --content-bg-color: #ffffff;
+  --content-border-radius: 10px;
+  --content-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   --question-margin-bottom: 20px;
   --question-margin-bottom-large: 30px;
-  --answers-gap: 30px;
-  --btn-answer-width: 100px;
-  --btn-answer-padding: 5px;
-  --btn-answer-font-size: 15px;
+  --answers-gap: 20px;
+  --btn-answer-width: auto;
+  --btn-answer-padding: 10px 20px;
+  --btn-answer-font-size: 16px;
+  --btn-answer-border-radius: 5px;
+  --btn-answer-bg-color: #007bff;
+  --btn-answer-color: #ffffff;
+  --btn-answer-hover-bg-color: #0056b3;
   --btn-rest-margin-top: 20px;
-  --btn-restart-font-size: 20px;
-  --btn-restart-padding: 5px;
+  --btn-restart-font-size: 18px;
+  --btn-restart-padding: 10px 20px;
+  --btn-restart-bg-color: #28a745;
+  --btn-restart-color: #ffffff;
+  --btn-restart-hover-bg-color: #218838;
   --btn-next-margin-top: 30px;
-  --btn-next-font-size: 15px;
+  --btn-next-font-size: 16px;
   --btn-next-padding: 10px 20px;
-  --media-content-width: 70%;
-  --media-content-padding: 15px;
+  --btn-next-bg-color: #17a2b8;
+  --btn-next-color: #ffffff;
+  --btn-next-hover-bg-color: #138496;
+  --media-content-width: 90%;
+  --media-content-padding: 20px;
   --media-btn-next-padding: 5px 10px;
   --timer-font-size: 30px;
   --timer-margin-bottom: 20px;
-  --timer-color: red;
+  --timer-color: #ff0000;
   --timer-font-weight: 600;
-  --btn-answer-flex-basis-small: 60%;
+  --btn-answer-flex-basis-small: 80%;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: var(--font-family);
 }
 
 body {
@@ -46,15 +60,16 @@ body {
   padding: var(--content-padding);
   margin: auto;
   background-color: var(--content-bg-color);
+  border-radius: var(--content-border-radius);
+  box-shadow: var(--content-box-shadow);
 }
 
-.questionNumber {
+.questionNumber, .question {
   text-align: center;
   margin-bottom: var(--question-margin-bottom);
 }
 
 .question {
-  text-align: center;
   margin-bottom: var(--question-margin-bottom-large);
 }
 
@@ -71,6 +86,16 @@ body {
   width: var(--btn-answer-width);
   padding: var(--btn-answer-padding);
   font-size: var(--btn-answer-font-size);
+  border-radius: var(--btn-answer-border-radius);
+  background-color: var(--btn-answer-bg-color);
+  color: var(--btn-answer-color);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn_answer:hover {
+  background-color: var(--btn-answer-hover-bg-color);
 }
 
 .btnRestCont {
@@ -82,6 +107,16 @@ body {
 .btn_restart button {
   font-size: var(--btn-restart-font-size);
   padding: var(--btn-restart-padding);
+  background-color: var(--btn-restart-bg-color);
+  color: var(--btn-restart-color);
+  border: none;
+  border-radius: var(--btn-answer-border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn_restart button:hover {
+  background-color: var(--btn-restart-hover-bg-color);
 }
 
 .btnNextCont {
@@ -93,6 +128,16 @@ body {
 .btn_next button {
   font-size: var(--btn-next-font-size);
   padding: var(--btn-next-padding);
+  background-color: var(--btn-next-bg-color);
+  color: var(--btn-next-color);
+  border: none;
+  border-radius: var(--btn-answer-border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn_next button:hover {
+  background-color: var(--btn-next-hover-bg-color);
 }
 
 .timer {
