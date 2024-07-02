@@ -99,6 +99,14 @@ const questionsList = [
 ];
 
 const content = document.getElementById("content");
+const themeToggleCheckbox = document.getElementById("theme-toggle");
+
+themeToggleCheckbox.addEventListener("change", () => {
+  document.body.classList.toggle("dark-theme");
+  const content = document.getElementById("content");
+  content.classList.toggle("dark-theme");
+});
+
 play();
 
 function play() {
@@ -208,7 +216,7 @@ function displayNextButton() {
 
 ////////////// КОНЕЦ ИГРЫ
 function endOfTheGame(totalScore) {
-  content.innerHTML = `<h1 style="text-align:center">That's all! Your score: ${totalScore} </h1>
+  content.innerHTML = `<h1 class="end-message" style="text-align:center">That's all! Your score: ${totalScore} </h1>
       <div class="btnRestCont"><div class="btn_restart"><button id="restart">Play again</button></div></div>`;
   const btnRestart = document.getElementById("restart");
   btnRestart.onclick = function () {
