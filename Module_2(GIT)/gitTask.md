@@ -19,3 +19,9 @@
 
 ## Push & Pull - удалённые репозитории в Git!
 ![6](img/6.png)
+
+## Через origin – к звёздам. Продвинутое использование Git Remotes
+![7](img/7.png)
+
+
+### Source - https://learngitbranching.js.org/?locale=ru_RU
